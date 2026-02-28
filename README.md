@@ -119,7 +119,7 @@ Send encrypted messages to another node using a secret encryption key and destin
 ---
 
 ### Message Decryption
-![Decryption](screenshots/decryption.png)
+![Decryption](screenshots/decryption_key.png)
 The receiver enters the correct encryption key to decrypt and view the secured message.
 
 --- 
