@@ -1,22 +1,22 @@
-#Self-Securing Cryptocurrency using Blockchain (Spring Boot)
+# Self-Securing Cryptocurrency using Blockchain (Spring Boot)
 
-##Overview
+## Overview
 This project implements a Blockchain-inspired web application built using Spring Boot and Maven. The system enables secure token transfer between distributed nodes using randomized encryption algorithms. It integrates cryptography, distributed ledger concepts, and database-backed transaction tracking to simulate blockchain behavior.
 
 ---
 
-##Key Features
+## Key Features
 
 ###User Authentication
 - User Registration and Login
 - Credentials stored securely in MySQL database
 - Redirects authenticated users to Node Dashboard
 
-###Token Management
+### Token Management
 - Users can create tokens using text input
 - Tokens are associated with specific nodes
 
-###Secure Token Transfer
+### Secure Token Transfer
 - Tokens are transferred between nodes (Next / Previous)
 - Randomly selects one of:
   - Affine Cipher
@@ -25,7 +25,7 @@ This project implements a Blockchain-inspired web application built using Spring
 - Encryption occurs before transmission
 - Decryption requires same user-provided key
 
-###Distributed Ledger
+### Distributed Ledger
 - Every transaction is recorded with:
   - Node Number
   - Key
@@ -36,14 +36,14 @@ This project implements a Blockchain-inspired web application built using Spring
 
 ---
 
-##Database Structure (MySQL - transaction_db)
+## Database Structure 
 
-###Tables:
+### Tables:
 1. **Users**
 2. **Tokens**
 3. **Transactions**
 
-###Ledger Fields:
+### Ledger Fields:
 - Node Number
 - Encryption Key
 - Transferred Node
@@ -51,7 +51,7 @@ This project implements a Blockchain-inspired web application built using Spring
 
 ---
 
-##Technologies Used
+## Technologies Used
 - Java
 - Spring Boot
 - Maven
@@ -61,7 +61,7 @@ This project implements a Blockchain-inspired web application built using Spring
 
 ---
 
-##Architecture
+## Architecture
 - Controller Layer
 - Service Layer
 - Repository Layer
@@ -70,7 +70,7 @@ This project implements a Blockchain-inspired web application built using Spring
 
 ---
 
-##Security Concepts Demonstrated
+## Security Concepts Demonstrated
 - Randomized encryption selection
 - Secure key-based decryption
 - Immutable transaction records
@@ -78,7 +78,7 @@ This project implements a Blockchain-inspired web application built using Spring
 
 ---
 
-##Learning Outcomes
+## Learning Outcomes
 - Integration of cryptography with web applications
 - Simulation of blockchain ledger behavior
 - Secure token-based data transfer
@@ -86,6 +86,6 @@ This project implements a Blockchain-inspired web application built using Spring
 
 ---
 
-##Author
+## Author
 Lepakshi Vyshnavi  
 Integrated M.Tech CSE | VIT-AP University
