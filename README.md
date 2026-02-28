@@ -100,7 +100,7 @@ Registered users can securely log in using their credentials to access the syste
 
 ---
 
-### 🖥 Node Dashboard
+### Node Dashboard
 ![Dashboard](screenshots/dashboard.png)
 After login, users can access Token, Transfer, and Ledger functionalities from the dashboard.
 
