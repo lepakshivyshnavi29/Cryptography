@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptography - Transfer Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        .header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #f093fb;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .node-info {
+            background: rgba(240, 147, 251, 0.2);
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px solid #f093fb;
+            margin-top: 10px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .transfer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #f093fb;
+            text-align: center;
+            border-bottom: 2px solid rgba(240, 147, 251, 0.3);
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #f093fb;
+            box-shadow: 0 0 15px rgba(240, 147, 251, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            font-weight: bold;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin-top: 10px;
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .alert-success {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+        
+        .alert-error {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+        }
+        
+        .received-messages {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+        }
+        
+        .message-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #f093fb;
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .message-info {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .quantum-display {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quantum-text {
+            font-size: 18px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px currentColor;
+        }
+        
+        .polarizer-note {
+            margin-top: 10px;
+            font-size: 12px;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .decrypt-form {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+        
+        .decrypt-result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+        
+        .navigation {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #f093fb;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .transfer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .quantum-animation {
+            animation: quantumShimmer 2s ease-in-out infinite;
+        }
+        
+        @keyframes quantumShimmer {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; text-shadow: 0 0 20px currentColor; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔄 TRANSFER HUB</h1>
+        <div class="node-info">
+            <strong>Node:</strong> <span th:text="${user.nodeId}">NODE-XXXXXXXX</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+        
+        <div class="transfer-grid">
+            <!-- Send Message Section -->
+            <div class="section">
+                <h2 class="section-title">📤 SEND MESSAGE</h2>
+                
+                <form action="/transfer" method="post">
+                    <div class="form-group">
+                        <label for="text">💬 Message:</label>
+                        <textarea id="text" name="text" rows="4" placeholder="Enter your message or use token from previous page..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="key">🔑 Encryption Key:</label>
+                        <input type="text" id="key" name="key" placeholder="Enter encryption key..." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="destinationNode">📍 Destination Node ID:</label>
+                        <input type="text" id="destinationNode" name="destinationNode" placeholder="NODE-XXXXXXXX" required>
+                    </div>
+                    
+                    <button type="submit" class="btn">🚀 TRANSFER MESSAGE</button>
+                </form>
+                
+                <button type="button" class="btn btn-secondary" onclick="loadTokenMessage()">
+                    📝 Load Token Message
+                </button>
+            </div>
+            
+            <!-- Received Messages Section -->
+            <div class="section">
+                <h2 class="section-title">📥 TOKEN RECEIVED</h2>
+                
+                <div class="received-messages">
+                    <div th:if="${#lists.isEmpty(receivedTransactions)}">
+                        <p style="text-align: center; color: rgba(255, 255, 255, 0.7);">
+                            🔍 No received messages yet
+                        </p>
+                    </div>
+                    
+                    <div th:each="transaction : ${receivedTransactions}" class="message-item">
+                        <div class="message-header">
+                            <div class="message-info">
+                                <strong>From:</strong> <span th:text="${transaction.nodeNumber}">NODE-SENDER</span><br>
+                                <strong>Cipher:</strong> <span th:text="${transaction.cipherType}">CAESAR</span><br>
+                                <strong>Time:</strong> <span th:text="${#temporals.format(transaction.timestamp, 'yyyy-MM-dd HH:mm')}">2024-01-01 12:00</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Quantum Optical Display -->
+                        <div class="quantum-display quantum-animation" 
+                             th:style="'background-color: ' + ${transaction.backgroundColor} + '; color: ' + ${transaction.textColor} + ';'">
+                            <div class="quantum-text" th:text="${transaction.encryptedText}">ENCRYPTED_MESSAGE_HERE</div>
+                            <div class="polarizer-note">
+                                🔬 Quantum encrypted - visible only through polarizer
+                            </div>
+                        </div>
+                        
+                        <!-- Decryption Form -->
+                        <div class="decrypt-form">
+                            <form action="/decrypt" method="post">
+                                <input type="hidden" name="transactionId" th:value="${transaction.id}">
+                                <div class="form-group">
+                                    <label>🔓 Enter decryption key:</label>
+                                    <input type="text" name="key" placeholder="Enter key to decrypt..." required>
+                                </div>
+                                <button type="submit" class="btn">🔓 DECRYPT MESSAGE</button>
+                            </form>
+                        </div>
+                        
+                        <!-- Decrypted Result (if available) -->
+                        <div th:if="${decryptedTransaction != null and decryptedTransaction.id == transaction.id}" class="decrypt-result">
+                            <h4 style="color: #00ff88; margin-bottom: 10px;">✅ Decrypted Message:</h4>
+                            <div class="quantum-display quantum-animation" 
+                                 th:style="'background-color: ' + ${decryptedTransaction.backgroundColor} + '; color: ' + ${decryptedTransaction.textColor} + ';'">
+                                <div class="quantum-text" th:text="${decryptedText}">DECRYPTED_MESSAGE_HERE</div>
+                                <div class="polarizer-note">
+                                    🌟 Quantum decrypted - visible only through polarizer
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <div class="nav-links">
+                <a href="/node" class="nav-link">🏠 Node Dashboard</a>
+                <a href="/token" class="nav-link">📝 Token</a>
+                <a href="/ledger" class="nav-link">📊 Ledger</a>
+                <a href="/logout" class="nav-link">🚪 Logout</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function loadTokenMessage() {
+            const savedToken = sessionStorage.getItem('messageToken');
+            if (savedToken) {
+                document.getElementById('text').value = savedToken;
+                
+                // Visual feedback
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ TOKEN LOADED';
+                btn.style.background = 'linear-gradient(135deg, #00ff88 0%, #00cc66 100%)';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                }, 2000);
+            } else {
+                alert('No token message found. Please create a token first.');
+            }
+        }
+        
+        // Auto-focus on key input when form is submitted
+        document.addEventListener('DOMContentLoaded', function() {
+            const decryptForms = document.querySelectorAll('.decrypt-form form');
+            decryptForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const keyInput = this.querySelector('input[name="key"]');
+                    if (!keyInput.value.trim()) {
+                        e.preventDefault();
+                        keyInput.focus();
+                        alert('Please enter a decryption key.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

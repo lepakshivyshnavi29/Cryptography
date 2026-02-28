@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptography - Node Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            color: #ecf0f1;
+        }
+        
+        .header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .node-info {
+            background: rgba(52, 152, 219, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px solid #3498db;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+        
+        .welcome {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .welcome h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #3498db;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            text-decoration: none;
+            padding: 40px 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(52, 152, 219, 0.4);
+        }
+        
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .nav-button:hover::before {
+            left: 100%;
+        }
+        
+        .nav-button .icon {
+            font-size: 3em;
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        .nav-button .title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .nav-button .description {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .token-btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+        
+        .token-btn:hover {
+            box-shadow: 0 15px 35px rgba(231, 76, 60, 0.4);
+        }
+        
+        .ledger-btn {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        }
+        
+        .ledger-btn:hover {
+            box-shadow: 0 15px 35px rgba(39, 174, 96, 0.4);
+        }
+        
+        .transfer-btn {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+        
+        .transfer-btn:hover {
+            box-shadow: 0 15px 35px rgba(243, 156, 18, 0.4);
+        }
+        
+        .logout {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .logout a {
+            color: #e74c3c;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid #e74c3c;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .logout a:hover {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .quantum-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(circle at 50% 50%, rgba(52, 152, 219, 0.1) 0%, transparent 70%);
+            animation: quantumPulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes quantumPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="quantum-effect"></div>
+    
+    <div class="header">
+        <h1>🔐 CRYPTOGRAPHY NODE</h1>
+        <div class="node-info">
+            <strong>Node ID:</strong> <span th:text="${user.nodeId}">NODE-XXXXXXXX</span><br>
+            <strong>User:</strong> <span th:text="${user.username}">username</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="welcome">
+            <h2>🚀 Welcome to Your Secure Communication Hub</h2>
+            <p>Choose an operation to manage your encrypted communications</p>
+        </div>
+        
+        <div class="button-grid">
+            <a href="/token" class="nav-button token-btn">
+                <span class="icon">📝</span>
+                <div class="title">TOKEN</div>
+                <div class="description">Create and manage your message tokens</div>
+            </a>
+            
+            <a href="/ledger" class="nav-button ledger-btn">
+                <span class="icon">📊</span>
+                <div class="title">LEDGER</div>
+                <div class="description">View transaction history and records</div>
+            </a>
+            
+            <a href="/transfer" class="nav-button transfer-btn">
+                <span class="icon">🔄</span>
+                <div class="title">TRANSFER</div>
+                <div class="description">Send and receive encrypted messages</div>
+            </a>
+        </div>
+        
+        <div class="logout">
+            <a href="/logout">🚪 Logout</a>
+        </div>
+    </div>
+</body>
+</html>
