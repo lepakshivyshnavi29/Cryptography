@@ -122,7 +122,7 @@ Send encrypted messages to another node using a secret encryption key and destin
 ![Decryption](screenshots/decryption.png)
 The receiver enters the correct encryption key to decrypt and view the secured message.
 
----
+--- 
 
 ### Transaction Ledger
 ![Transaction Ledger](screenshots/transaction_ledger.png)
