@@ -86,6 +86,48 @@ This project implements a Blockchain-inspired web application built using Spring
 
 ---
 
+## Application Screenshots
+
+### Node Registration
+![Node Registration](screenshots/node_registration.png)
+Create a secure node account to generate a unique Node ID for encrypted communication.
+
+---
+
+### Login Page
+![Login](screenshots/login.png)
+Registered users can securely log in using their credentials to access the system.
+
+---
+
+### 🖥 Node Dashboard
+![Dashboard](screenshots/dashboard.png)
+After login, users can access Token, Transfer, and Ledger functionalities from the dashboard.
+
+---
+
+### Token Creation
+![Token Creation](screenshots/token_creation.png)
+Users create secure message tokens that will be encrypted before transmission.
+
+---
+
+### Transfer Hub
+![Transfer Hub](screenshots/transfer_hub.png)
+Send encrypted messages to another node using a secret encryption key and destination Node ID.
+
+---
+
+### Message Decryption
+![Decryption](screenshots/decryption.png)
+The receiver enters the correct encryption key to decrypt and view the secured message.
+
+---
+
+### Transaction Ledger
+![Transaction Ledger](screenshots/transaction_ledger.png)
+View all recorded transactions and track secure message transfers between nodes.
+
 ## Author
 Lepakshi Vyshnavi  
 Integrated M.Tech CSE | VIT-AP University
